@@ -108,7 +108,14 @@ Make a Raspberry PI as a proxy route, work with shadowsocks server, provide clea
 ## 3.1、安装配置启动overture服务
     
     到 https://github.com/shawn1m/overture  下载安装（Raspberry Pi 3 是 armv71, 即arm 32bit 架构。可用 `uname -m` 查看）。  
-    我的配置如下：  
+    mkdir overture && cd $_
+    wget https://github.com/shawn1m/overture/releases/download/1.3.6.1/overture-linux-arm.zip  
+    unzip overture-linux-arm.zip
+    sudo mkdir /usr/bin/overture/
+    sudo cp config.json hosts_sample overture-linux-arm domain_sample  ip_network_sample /usr/bin/overture/
+    
+    我的配置如下：
+    cat << EOL | sudo tee /etc/shadowsocks-libev/overture.json
     {  
       "BindAddress": ":53",  
       "PrimaryDNS": [  
@@ -147,6 +154,7 @@ Make a Raspberry PI as a proxy route, work with shadowsocks server, provide clea
     "CacheSize" : 604800,  
     "RejectQtype": [255]  
   }  
+  EOL
     
     注意：境外辅助dns服务器需要支持tcp，走socket5代理模式  
     配置中指定的地址段china_ip_list，域名单gfwlist，都是众所周知的github项目，可自行下载，本项目内也有提供  
