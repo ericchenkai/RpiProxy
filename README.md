@@ -32,9 +32,9 @@ Make a Raspberry PI as a proxy route, work with shadowsocks server, provide clea
     stretch版本加这行：  
          deb http://ftp.debian.org/debian stretch-backports main  
     apt-get update  
-    stretch版本执行这句：  
-         apt-get install shadowsocks-libev -t jessie-backports  
     jessie版本执行这句：  
+         apt-get install shadowsocks-libev -t jessie-backports  
+    stretch版本执行这句：  
          apt-get install shadowsocks-libev -t stretch-backports  
     
 ## 1.2、禁用shadowsocks-libev-server服务，这个服务默认是打开的
@@ -97,8 +97,8 @@ Make a Raspberry PI as a proxy route, work with shadowsocks server, provide clea
     注意这句：net.ipv4.ip_forward = 1
     sysctl -p
     下载本项目文件/etc/shadowsocks-libev/iptables.up.rules
-    修改你自己的Shadowsocks服务器ip
-    vi /etc/network/if-pre-up.d/iptables
+    修改你自己的Shadowsocks服务器ip(替换*.*.*.*/32处）
+    vi /etc/network/if-pre-up.d/iptables
         #!/bin/bash
         /sbin/iptables-restore < /etc/shadowsocks-libev/iptables.up.rules
     chmod +x /etc/network/if-pre-up.d/iptables
@@ -107,7 +107,8 @@ Make a Raspberry PI as a proxy route, work with shadowsocks server, provide clea
 
 ## 3.1、安装配置启动overture服务
     
-    到https://github.com/shawn1m/overture下载安装，我的配置如下：  
+    到 https://github.com/shawn1m/overture  下载安装（Raspberry Pi 3 是 armv71, 即arm 32bit 架构。可用 `uname -m` 查看）。  
+    我的配置如下：  
     {  
       "BindAddress": ":53",  
       "PrimaryDNS": [  
